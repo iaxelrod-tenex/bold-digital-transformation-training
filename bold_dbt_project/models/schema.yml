@@ -2,9 +2,9 @@
 version: 2
 
 sources:
-  - name: adventureworks
+  - name: netsuite
     database: source
-    schema: adventureworks
+    schema: netsuite
     tables:
       - name: address
       - name: addresstype
