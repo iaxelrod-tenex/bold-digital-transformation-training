@@ -1,0 +1,8 @@
+-- Query the Snowflake metadata to find a table that contains customer contract information
+-- Specifically, find the columns that contain the following information:
+    -- 1) Contract number
+    -- 2) Contract start date
+    -- 3) Contract end date
+    -- 4) Contract type
+    -- 5) Contract amount
+    -- 6) Contract status

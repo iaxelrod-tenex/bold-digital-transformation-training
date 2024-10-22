@@ -33,3 +33,9 @@ clean-targets:         # directories to be removed by `dbt clean`
 models:
   bold_dbt_project:
     materialized: table
+    _base:
+        schema: base
+    _int:
+        schema: int
+    dw:
+        schema: dw

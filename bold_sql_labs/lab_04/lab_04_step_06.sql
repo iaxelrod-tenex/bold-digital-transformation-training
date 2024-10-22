@@ -1,0 +1,1 @@
+-- Query the Snowflake metadata to find a table that joins to the sales order header table

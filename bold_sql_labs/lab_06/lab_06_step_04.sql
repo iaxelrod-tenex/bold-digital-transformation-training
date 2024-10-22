@@ -1,0 +1,1 @@
+-- Write and run a query that returns the top 10 CUSTOMERID and CUSTOMERNAME by total sales order amount

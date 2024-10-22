@@ -1,0 +1,5 @@
+-- Query the Snowflake metadata to find a table that contains sales order header information
+-- Specifically, find the columns that contain the following information:
+    -- 1) Sales order number
+    -- 2) Sales order date
+    -- 3) Total sales order amount

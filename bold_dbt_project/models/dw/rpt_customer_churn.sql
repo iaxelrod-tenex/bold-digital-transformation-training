@@ -1,7 +1,3 @@
-{{ 
-    config(materialized='table')
-}}
-
 WITH months AS (
     SELECT DISTINCT
         date_month AS month

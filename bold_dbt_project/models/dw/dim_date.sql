@@ -1,7 +1,3 @@
-{{ 
-    config(materialized='table')
-}}
-
 WITH date_range AS (
     SELECT
         DATEADD ( 'YEAR' , -4 , DATE_TRUNC ( 'YEAR' , CURRENT_DATE() ) ) AS from_date
