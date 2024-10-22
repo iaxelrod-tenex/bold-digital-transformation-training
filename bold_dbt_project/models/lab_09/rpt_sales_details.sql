@@ -1,0 +1,15 @@
+-- Create a model that joins all columns from the int__sales_order_details model
+-- with the following columns from the dim_date model using the orderdate:
+    -- is_week_day
+    -- is_current_day
+    -- is_last_day
+    -- is_current_month
+    -- is_last_month
+    -- is_current_year
+    -- is_last_year
+    -- is_mtd
+    -- is_ytd
+    -- is_mtd_last_year
+    -- is_ytd_last_year
+    -- is_last_12_months
+    -- is_prior_12_months
