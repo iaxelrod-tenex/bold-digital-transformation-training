@@ -1,19 +1,4 @@
--- This dbt model creates deduplicated customer records with cleaned up customer names
-
-WITH base_data AS (
-    SELECT
-        *
-    FROM
-        {{ source ( 'netsuite' , 'customer' ) }}
-    
-    -- Filter out all records that have been "deleted"
-    WHERE
-        _fivetran_deleted = FALSE
-
-    -- The following logic will remove any duplicate customers with the same customerid value
-    QUALIFY
-        ROW_NUMBER() OVER ( PARTITION BY customerid ORDER BY _fivetran_synced DESC ) = 1
-)
+-- This dbt model creates customer records with cleaned up customer names
 
 SELECT
     a.customerid as customer_id
@@ -36,8 +21,10 @@ SELECT
     -- If the BOLD Company consisted of multiple sub-companies, we denote which company and system this data came from
     , 'adventureworks' AS source_company_name
     , 'netsuite' AS source_system_name
-    , customer_id AS source_customer_id
     -- Generate a system-wide unique key by concatenating the source company name, source system name, and customer id, then converting it to an alhpanumeric hash
+    , customer_id AS source_customer_id
     , MD5 ( source_company_name || '|' || source_system_name || '|' || source_customer_id ) AS customer_key
 FROM
-    base_data a
+    {{ source ( 'netsuite' , 'customer' ) }} a
+WHERE
+    _fivetran_deleted = FALSE
