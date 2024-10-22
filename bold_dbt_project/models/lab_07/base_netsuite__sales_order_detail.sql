@@ -3,4 +3,3 @@
     -- 2) Rename any columns as necessary
     -- 3) Join to other tables to enrich data as necessary
     -- 4) Add metadata columns to denote where the data came from
-

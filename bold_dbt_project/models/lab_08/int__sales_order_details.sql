@@ -1,30 +1,59 @@
 -- This dbt model creates customer records with cleaned up customer names
 
 SELECT
-    a.customerid as customer_id
-    , a.modifieddate as modified_date
-    , a.personid as person_id
-    , a.accountnumber as account_number
-    , a.companyid as company_id
-    , a.rowguid as row_guid
-    , a.territoryid as territory_id
-    -- The following logic will trim any trailing or leading spaces in the customer name
-    , TRIM ( a.customername ) as customer_name
-    -- The following logic will convert the customer name to all upper case letters
-    , UPPER ( customer_name ) AS customer_name_upper
-    , LOWER ( customer_name ) AS customer_name_lower
-    , a.customertype as customer_type
-    , a.billingaddressid as billing_address_id
-    , a.shippingaddressid as shipping_address_id
-    , a._fivetran_deleted as _fivetran_deleted
-    , a._fivetran_synced as _fivetran_synced
-    -- If the BOLD Company consisted of multiple sub-companies, we denote which company and system this data came from
-    , 'adventureworks' AS source_company_name
-    , 'netsuite' AS source_system_name
-    -- Generate a system-wide unique key by concatenating the source company name, source system name, and customer id, then converting it to an alhpanumeric hash
-    , customer_id AS source_customer_id
-    , MD5 ( source_company_name || '|' || source_system_name || '|' || source_customer_id ) AS customer_key
+    soh.salesorderid AS salesorderid
+    , soh.purchaseordernumber AS purchaseordernumber
+    , soh.status AS status
+    , soh.accountnumber AS accountnumber
+    , soh.taxamt AS taxamt
+    , soh.comment AS comment
+    , soh.freight AS freight
+    , soh.orderdate AS orderdate
+    , soh.shipmethodid AS shipmethodid
+    , soh.salespersonid AS salespersonid
+    , soh.salesordernumber AS salesordernumber
+    , soh.billtoaddressid AS billtoaddressid
+    , soh.shipdate AS shipdate
+    , soh.shiptoaddressid AS shiptoaddressid
+    , soh.revisionnumber AS revisionnumber
+    , soh.customerid AS customerid
+    , soh.territoryid AS territoryid
+    , soh.duedate AS duedate
+    , soh.onlineorderflag AS onlineorderflag
+    , soh.modifieddate AS modifieddate
+    , cust.customerid AS customer_id
+    , cust.accountnumber AS customer_account_number
+    , cust.customername AS customer_name
+    , cust.customertype AS customer_type
+    , addr.addressid AS addressid
+    , addr.city AS city
+    , addr.postalcode AS postalcode
+    , addr.addressline2 AS addressline2
+    , addr.addressline1 AS addressline1
+    , addr.stateprovinceid AS stateprovinceid
+    , addr.statecode AS statecode
+    , addr.countrycode AS countrycode
+    , sod.salesorderdetailid AS salesorderdetailid
+    , sod.carriertrackingnumber AS carriertrackingnumber
+    , sod.productid AS productid
+    , sod.unitpricediscount AS unitpricediscount
+    , sod.linetotal AS linetotal
+    , sod.orderqty AS orderqty
+    , sod.specialofferid AS specialofferid
+    , sod.unitprice AS unitprice
+    , prd.style
+    , prd.weight
+    , prd.size
+    , prd.class
+    , prd.standardcost
+    , prd.name
+    , prd.productnumber
+    , prd.color
+    , prd.productline
+    -- STEP 1) Add in the product category and subcategory
 FROM
-    {{ source ( 'netsuite' , 'customer' ) }} a
-WHERE
-    _fivetran_deleted = FALSE
+    {{ ref ( 'base_netsuite__sales_order_header' ) }} soh
+INNER JOIN {{ ref ( 'base_netsuite__sales_order_detail' )}} sod ON soh.salesorderid = sod.salesorderid 
+INNER JOIN {{ ref ( 'base_netsuite__customer' ) }} cust ON soh.customerid = cust.customerid
+INNER JOIN {{ ref ( 'base_netsuite__address' ) }} addr ON soh.shiptoaddressid = addr.addressid
+INNER JOIN {{ ref ( 'base_netsuite__product' ) }} prd ON sod.productid = prd.productid
