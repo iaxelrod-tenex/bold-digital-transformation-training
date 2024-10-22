@@ -32,7 +32,7 @@ SELECT
     , 'adventureworks' AS source_company_name
     , 'netsuite' AS source_system_name
     -- Generate a system-wide unique key by concatenating the source company name, source system name, and product id, then converting it to an alhpanumeric hash
-    , product_id AS source_product_id
+    , productid AS source_product_id
     , MD5 ( source_company_name || '|' || source_system_name || '|' || source_product_id ) AS product_key
 FROM
     {{ source ( 'netsuite' , 'product' ) }} a
