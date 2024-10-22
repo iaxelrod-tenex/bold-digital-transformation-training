@@ -15,6 +15,7 @@ SELECT
     , a.size
     , a.class
     , a.standardcost
+    -- STEP 1) Trim the product name to eliminate leading and trailing spaces
     , a.name
     , a.sellenddate
     , a.productnumber
@@ -36,7 +37,7 @@ SELECT
     , MD5 ( source_company_name || '|' || source_system_name || '|' || source_product_id ) AS product_key
 FROM
     {{ source ( 'netsuite' , 'product' ) }} a
--- STEP 1) Join to productsubcategory to add the product subcategory name to the columns above
--- STEP 2) Join to productcategory to add the product category name to the columns above
+-- STEP 2) Join to productsubcategory to add the product subcategory name to the columns above
+-- STEP 3) Join to productcategory to add the product category name to the columns above
 WHERE
     _fivetran_deleted = FALSE
