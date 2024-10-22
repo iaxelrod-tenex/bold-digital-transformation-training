@@ -51,6 +51,7 @@ SELECT
     , prd.color
     , prd.productline
     -- STEP 1) Add in the product category and subcategory
+    -- STEP 2) Add in the current_timestamp() as a column named last_refreshed
 FROM
     {{ ref ( 'base_netsuite__sales_order_header' ) }} soh
 INNER JOIN {{ ref ( 'base_netsuite__sales_order_detail' )}} sod ON soh.salesorderid = sod.salesorderid 
