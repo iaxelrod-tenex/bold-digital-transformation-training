@@ -1,8 +1,11 @@
 WITH months AS (
-    SELECT DISTINCT
-        date_month AS month
+    SELECT
+        a.date_month AS month
+        , a.*
     FROM
-        {{ ref ( 'dim_date' ) }}
+        {{ ref ( 'dim_date' ) }} a
+    WHERE
+        a.day_num = 1
 )
 
 , contracts AS (
@@ -76,6 +79,14 @@ SELECT
         ELSE 0
     END AS net_mrr
     , CURRENT_TIMESTAMP()::TIMESTAMP_NTZ AS last_refreshed
+    , m.is_current_month
+    , m.is_last_month
+    , m.is_current_year
+    , m.is_last_year
+    , m.is_ytd
+    , m.is_ytd_last_year
+    , m.is_last_12_months
+    , m.is_prior_12_months
 FROM
     months m
 INNER JOIN contracts cont ON m.month BETWEEN cont.contractstartmonth AND COALESCE ( cont.contractendmonth , '2099-12-31' )
