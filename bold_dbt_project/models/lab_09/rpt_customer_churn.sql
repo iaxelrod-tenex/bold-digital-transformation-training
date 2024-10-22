@@ -38,8 +38,8 @@ SELECT
     , cont.contractenddate AS contract_end_date
     , cont.contractendreason AS contract_end_reason
     , CASE
-        WHEN m.month = cont.contractstartmonth THEN 'GREEN'
-        WHEN m.month = cont.contractendmonth THEN 'RED'
+        WHEN m.month = cont.contractstartmonth THEN '#81C784'
+        WHEN m.month = cont.contractendmonth THEN '#E57373'
         ELSE NULL
     END AS churn_color
     , CASE
