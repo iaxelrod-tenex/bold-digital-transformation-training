@@ -21,10 +21,10 @@ SELECT
     , soh.duedate AS duedate
     , soh.onlineorderflag AS onlineorderflag
     , soh.modifieddate AS modifieddate
-    , cust.customerid AS customer_id
-    , cust.accountnumber AS customer_account_number
-    , cust.customername AS customer_name
-    , cust.customertype AS customer_type
+    , cust.customerid AS customerid
+    , cust.accountnumber AS customeraccountnumber
+    , cust.customername AS customername
+    , cust.customertype AS customertype
     , addr.addressid AS addressid
     , addr.city AS city
     , addr.postalcode AS postalcode
