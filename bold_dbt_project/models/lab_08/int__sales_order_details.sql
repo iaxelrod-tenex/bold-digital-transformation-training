@@ -16,7 +16,6 @@ SELECT
     , soh.shipdate AS shipdate
     , soh.shiptoaddressid AS shiptoaddressid
     , soh.revisionnumber AS revisionnumber
-    , soh.customerid AS customerid
     , soh.territoryid AS territoryid
     , soh.duedate AS duedate
     , soh.onlineorderflag AS onlineorderflag

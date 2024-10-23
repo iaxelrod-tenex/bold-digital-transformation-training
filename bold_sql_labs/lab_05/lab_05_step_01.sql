@@ -9,5 +9,5 @@ SELECT
     , addr.*
 FROM
     source.netsuite.customer cust
-JOIN source.netsuite.address addr ON cust.shippingaddressid = addr.addressid 
+INNER JOIN source.netsuite.address addr ON cust.shippingaddressid = addr.addressid 
 LIMIT 200; 
